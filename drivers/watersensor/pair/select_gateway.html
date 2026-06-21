@@ -1,0 +1,57 @@
+<script type="application/javascript">
+  function chooseGateway(id) {
+    Homey.emit('select_gateway', { gatewayId: id }, function (err) {
+      if (err) return Homey.alert(err.message || String(err));
+      Homey.showView('list_devices');
+    });
+  }
+
+  function render(gateways) {
+    document.getElementById('loading').style.display = 'none';
+    if (!gateways || gateways.length === 0) {
+      document.getElementById('empty').style.display = 'block';
+      return;
+    }
+    // Only one Linkbox+ — skip the picker and go straight to its sensors.
+    if (gateways.length === 1) {
+      chooseGateway(gateways[0].id);
+      return;
+    }
+    const list = document.getElementById('gateways');
+    gateways.forEach(function (gateway) {
+      const button = document.createElement('button');
+      button.className = 'homey-button-secondary-full';
+      button.style.marginBottom = '8px';
+      button.textContent = gateway.hasIp ? gateway.name : gateway.name + ' (no IP set)';
+      button.addEventListener('click', function () { chooseGateway(gateway.id); });
+      list.appendChild(button);
+    });
+  }
+
+  function loadGateways() {
+    Homey.emit('list_gateways', {}, function (err, gateways) {
+      if (err) {
+        document.getElementById('loading').style.display = 'none';
+        return Homey.alert(err.message || String(err));
+      }
+      render(gateways);
+    });
+  }
+
+  // Emit directly rather than from inside Homey.ready(cb): that callback is not
+  // reliably fired in the pair webview, which would leave this view hanging.
+  Homey.setTitle('Select Abra Linkbox+');
+  Homey.ready();
+  loadGateways();
+</script>
+
+<header class="homey-header">
+  <h1 class="homey-title">Select your Abra Linkbox+</h1>
+  <p class="homey-subtitle">Water sensors are added through the Linkbox+ they report to.</p>
+</header>
+
+<p class="homey-subtitle" id="loading">Looking for paired Linkbox+ gateways…</p>
+<p class="homey-subtitle" id="empty" style="display: none">
+  No Abra Linkbox+ is paired yet. Add a Linkbox+ first, then come back to add its water sensors.
+</p>
+<div id="gateways"></div>

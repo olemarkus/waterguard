@@ -1,0 +1,10 @@
+{
+  "type": "string",
+  "title": {
+    "en": "Valve fault"
+  },
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor",
+  "icon": "/assets/valve_alarm_state.svg"
+}

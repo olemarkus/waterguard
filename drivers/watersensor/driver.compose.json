@@ -1,0 +1,82 @@
+{
+  "name": {
+    "en": "Water Sensor+"
+  },
+  "class": "sensor",
+  "capabilities": [
+    "alarm_water",
+    "measure_temperature",
+    "measure_humidity",
+    "measure_battery"
+  ],
+  "capabilitiesOptions": {
+    "alarm_water": {
+      "title": {
+        "en": "Water leak"
+      },
+      "insights": true
+    },
+    "measure_temperature": {
+      "title": {
+        "en": "Temperature"
+      }
+    },
+    "measure_humidity": {
+      "title": {
+        "en": "Humidity"
+      }
+    },
+    "measure_battery": {
+      "title": {
+        "en": "Battery"
+      }
+    }
+  },
+  "energy": {
+    "batteries": [
+      "OTHER"
+    ]
+  },
+  "platforms": [
+    "local"
+  ],
+  "images": {
+    "small": "/drivers/watersensor/assets/images/small.png",
+    "large": "/drivers/watersensor/assets/images/large.png",
+    "xlarge": "/drivers/watersensor/assets/images/xlarge.png"
+  },
+  "pair": [
+    {
+      "id": "select_gateway"
+    },
+    {
+      "id": "list_devices",
+      "template": "list_devices",
+      "navigation": {
+        "next": "add_devices"
+      }
+    },
+    {
+      "id": "add_devices",
+      "template": "add_devices"
+    }
+  ],
+  "settings": [
+    {
+      "type": "group",
+      "label": {
+        "en": "Connection"
+      },
+      "children": [
+        {
+          "id": "gateway",
+          "type": "label",
+          "label": {
+            "en": "Linkbox+ gateway"
+          },
+          "value": "-"
+        }
+      ]
+    }
+  ]
+}

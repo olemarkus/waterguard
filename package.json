@@ -1,0 +1,60 @@
+{
+  "name": "org.barelysufficient.waterguard",
+  "version": "1.0.0",
+  "private": true,
+  "packageManager": "npm@10.9.4",
+  "engines": {
+    "node": ">=22.17.0 <23"
+  },
+  "volta": {
+    "node": "22.22.0",
+    "npm": "10.9.4"
+  },
+  "main": "app.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "node scripts/check-test-titles.js && eslint . --max-warnings=0",
+    "lint:fix": "eslint . --fix",
+    "arch:check": "dependency-cruiser --config .dependency-cruiser.cjs app.ts lib drivers",
+    "test": "npm run typecheck && vitest run --config vitest.config.mts",
+    "test:watch": "vitest --config vitest.config.mts",
+    "validate": "npm run lint && npm run arch:check && npm test && homey app validate",
+    "fake-linkbox": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/fake-linkbox.ts",
+    "start": "homey app run --remote",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "**/*.{ts,mts,cts}": [
+      "eslint --max-warnings=0 --no-warn-ignored"
+    ],
+    "**/*.{js,mjs,cjs}": [
+      "eslint --max-warnings=0 --no-warn-ignored"
+    ]
+  },
+  "dependencies": {
+    "bacstack": "0.0.1-beta.14",
+    "pino": "^10.3.1",
+    "source-map-support": "^0.5.21"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@tsconfig/node22": "^22.0.5",
+    "@types/homey": "npm:homey-apps-sdk-v3-types@^0.3.12",
+    "@types/node": "^22.19.17",
+    "@types/source-map-support": "^0.5.10",
+    "@vitest/coverage-v8": "^4.1.8",
+    "dependency-cruiser": "^17.4.0",
+    "eslint": "^10.4.0",
+    "eslint-plugin-functional": "^9.0.5",
+    "eslint-plugin-n": "^18.0.1",
+    "eslint-plugin-sonarjs": "^4.0.3",
+    "eslint-plugin-unicorn": "^64.0.0",
+    "globals": "^17.6.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.4.0",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.59.4",
+    "vitest": "^4.1.8"
+  }
+}

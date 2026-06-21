@@ -1,0 +1,39 @@
+{
+  "id": "org.barelysufficient.waterguard",
+  "version": "0.0.1",
+  "compatibility": ">=12.4.0",
+  "sdk": 3,
+  "runtime": "nodejs",
+  "platforms": [
+    "local"
+  ],
+  "name": {
+    "en": "Waterguard"
+  },
+  "description": {
+    "en": "Protects against water damage"
+  },
+  "brandColor": "#2BABE2",
+  "category": [
+    "security"
+  ],
+  "tags": {
+    "en": [
+      "water",
+      "leak",
+      "valve",
+      "sensor",
+      "shut-off"
+    ]
+  },
+  "permissions": [],
+  "images": {
+    "small": "/assets/images/small.png",
+    "large": "/assets/images/large.png",
+    "xlarge": "/assets/images/xlarge.png"
+  },
+  "author": {
+    "name": "Ole Markus With",
+    "email": "olemarkus@gmail.com"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "title": {
+    "en": "Valve fault state changed"
+  },
+  "hint": {
+    "en": "Triggers when the valve monitor reports a different fault state."
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=linkbox"
+    }
+  ],
+  "tokens": [
+    {
+      "name": "state",
+      "type": "string",
+      "title": {
+        "en": "Fault state"
+      },
+      "example": {
+        "en": "noAlarm"
+      }
+    }
+  ]
+}

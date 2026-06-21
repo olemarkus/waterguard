@@ -1,0 +1,468 @@
+{
+  "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
+  "id": "org.barelysufficient.waterguard",
+  "version": "0.0.1",
+  "compatibility": ">=12.4.0",
+  "sdk": 3,
+  "runtime": "nodejs",
+  "platforms": [
+    "local"
+  ],
+  "name": {
+    "en": "Waterguard"
+  },
+  "description": {
+    "en": "Protects against water damage"
+  },
+  "brandColor": "#2BABE2",
+  "category": [
+    "security"
+  ],
+  "tags": {
+    "en": [
+      "water",
+      "leak",
+      "valve",
+      "sensor",
+      "shut-off"
+    ]
+  },
+  "permissions": [],
+  "images": {
+    "small": "/assets/images/small.png",
+    "large": "/assets/images/large.png",
+    "xlarge": "/assets/images/xlarge.png"
+  },
+  "author": {
+    "name": "Ole Markus With",
+    "email": "olemarkus@gmail.com"
+  },
+  "flow": {
+    "triggers": [
+      {
+        "title": {
+          "en": "Valve fault state changed"
+        },
+        "hint": {
+          "en": "Triggers when the valve monitor reports a different fault state."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=linkbox"
+          }
+        ],
+        "tokens": [
+          {
+            "name": "state",
+            "type": "string",
+            "title": {
+              "en": "Fault state"
+            },
+            "example": {
+              "en": "noAlarm"
+            }
+          }
+        ],
+        "id": "valve_fault_changed"
+      }
+    ],
+    "actions": [
+      {
+        "title": {
+          "en": "Close the water valve"
+        },
+        "titleFormatted": {
+          "en": "Close the water valve"
+        },
+        "hint": {
+          "en": "Closes the main shut-off valve and verifies it reached the closed state."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=linkbox"
+          }
+        ],
+        "id": "close_valve"
+      },
+      {
+        "title": {
+          "en": "Open the water valve"
+        },
+        "titleFormatted": {
+          "en": "Open the water valve"
+        },
+        "hint": {
+          "en": "Opens the main shut-off valve and verifies it reached the open state."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=linkbox"
+          }
+        ],
+        "id": "open_valve"
+      },
+      {
+        "title": {
+          "en": "Reset the leak alarm"
+        },
+        "titleFormatted": {
+          "en": "Reset the leak alarm"
+        },
+        "hint": {
+          "en": "Acknowledges and clears an active water-leak alarm on the Linkbox+."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=linkbox"
+          }
+        ],
+        "id": "reset_leak_alarm"
+      }
+    ]
+  },
+  "drivers": [
+    {
+      "name": {
+        "en": "Abra Linkbox+"
+      },
+      "class": "other",
+      "capabilities": [
+        "valve_open",
+        "alarm_water",
+        "onoff",
+        "alarm_tamper",
+        "alarm_generic",
+        "valve_alarm_state",
+        "cable_disconnected",
+        "open_valve",
+        "close_valve",
+        "clear_leak_alarm"
+      ],
+      "capabilitiesOptions": {
+        "valve_open": {
+          "title": {
+            "en": "Main water valve"
+          },
+          "titleTrue": {
+            "en": "Open"
+          },
+          "titleFalse": {
+            "en": "Closed"
+          },
+          "preventInsights": true,
+          "preventTag": true
+        },
+        "alarm_water": {
+          "title": {
+            "en": "Water leak"
+          },
+          "insights": true
+        },
+        "onoff": {
+          "title": {
+            "en": "Main water valve"
+          },
+          "insights": true,
+          "insightsTitleTrue": {
+            "en": "Valve opened"
+          },
+          "insightsTitleFalse": {
+            "en": "Valve closed"
+          },
+          "uiComponent": null
+        },
+        "alarm_tamper": {
+          "title": {
+            "en": "Tamper"
+          }
+        },
+        "alarm_generic": {
+          "title": {
+            "en": "Valve fault"
+          }
+        },
+        "open_valve": {
+          "title": {
+            "en": "Open main valve"
+          },
+          "desc": {
+            "en": "Manually open the main shut-off valve."
+          },
+          "maintenanceAction": true
+        },
+        "close_valve": {
+          "title": {
+            "en": "Close main valve"
+          },
+          "desc": {
+            "en": "Manually close the main shut-off valve. This stops all water to the property."
+          },
+          "maintenanceAction": true
+        },
+        "clear_leak_alarm": {
+          "title": {
+            "en": "Reset leak alarm"
+          },
+          "maintenanceAction": true
+        }
+      },
+      "platforms": [
+        "local"
+      ],
+      "images": {
+        "small": "/drivers/linkbox/assets/images/small.png",
+        "large": "/drivers/linkbox/assets/images/large.png",
+        "xlarge": "/drivers/linkbox/assets/images/xlarge.png"
+      },
+      "pair": [
+        {
+          "id": "start"
+        },
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "manual"
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "settings": [
+        {
+          "type": "group",
+          "label": {
+            "en": "Connection"
+          },
+          "children": [
+            {
+              "id": "ip",
+              "type": "text",
+              "label": {
+                "en": "IP address"
+              },
+              "hint": {
+                "en": "The Linkbox+ IP address. Edit this to re-point the app without re-pairing."
+              },
+              "value": ""
+            },
+            {
+              "id": "bacnetPort",
+              "type": "number",
+              "label": {
+                "en": "BACnet/IP port"
+              },
+              "value": 47808,
+              "min": 1,
+              "max": 65535
+            },
+            {
+              "id": "deviceInstance",
+              "type": "label",
+              "label": {
+                "en": "BACnet device instance"
+              },
+              "value": "-"
+            },
+            {
+              "id": "model",
+              "type": "label",
+              "label": {
+                "en": "Model"
+              },
+              "value": "-"
+            },
+            {
+              "id": "serial",
+              "type": "label",
+              "label": {
+                "en": "Serial"
+              },
+              "value": "-"
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Valve control"
+          },
+          "children": [
+            {
+              "id": "valve_write_priority",
+              "type": "number",
+              "label": {
+                "en": "BACnet write priority"
+              },
+              "hint": {
+                "en": "Command priority (1 = highest, 16 = lowest) used when opening/closing the valve."
+              },
+              "value": 8,
+              "min": 1,
+              "max": 16
+            }
+          ]
+        }
+      ],
+      "id": "linkbox"
+    },
+    {
+      "name": {
+        "en": "Water Sensor+"
+      },
+      "class": "sensor",
+      "capabilities": [
+        "alarm_water",
+        "measure_temperature",
+        "measure_humidity",
+        "measure_battery"
+      ],
+      "capabilitiesOptions": {
+        "alarm_water": {
+          "title": {
+            "en": "Water leak"
+          },
+          "insights": true
+        },
+        "measure_temperature": {
+          "title": {
+            "en": "Temperature"
+          }
+        },
+        "measure_humidity": {
+          "title": {
+            "en": "Humidity"
+          }
+        },
+        "measure_battery": {
+          "title": {
+            "en": "Battery"
+          }
+        }
+      },
+      "energy": {
+        "batteries": [
+          "OTHER"
+        ]
+      },
+      "platforms": [
+        "local"
+      ],
+      "images": {
+        "small": "/drivers/watersensor/assets/images/small.png",
+        "large": "/drivers/watersensor/assets/images/large.png",
+        "xlarge": "/drivers/watersensor/assets/images/xlarge.png"
+      },
+      "pair": [
+        {
+          "id": "select_gateway"
+        },
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "settings": [
+        {
+          "type": "group",
+          "label": {
+            "en": "Connection"
+          },
+          "children": [
+            {
+              "id": "gateway",
+              "type": "label",
+              "label": {
+                "en": "Linkbox+ gateway"
+              },
+              "value": "-"
+            }
+          ]
+        }
+      ],
+      "id": "watersensor"
+    }
+  ],
+  "capabilities": {
+    "cable_disconnected": {
+      "type": "boolean",
+      "title": {
+        "en": "Sensor cable disconnected"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "icon": "/assets/cable_disconnected.svg"
+    },
+    "clear_leak_alarm": {
+      "type": "boolean",
+      "title": {
+        "en": "Reset leak alarm"
+      },
+      "getable": false,
+      "setable": true,
+      "uiComponent": "button",
+      "icon": "/assets/clear_leak_alarm.svg"
+    },
+    "close_valve": {
+      "type": "boolean",
+      "title": {
+        "en": "Close main valve"
+      },
+      "getable": false,
+      "setable": true,
+      "uiComponent": "button",
+      "icon": "/assets/close_valve.svg"
+    },
+    "open_valve": {
+      "type": "boolean",
+      "title": {
+        "en": "Open main valve"
+      },
+      "getable": false,
+      "setable": true,
+      "uiComponent": "button",
+      "icon": "/assets/open_valve.svg"
+    },
+    "valve_alarm_state": {
+      "type": "string",
+      "title": {
+        "en": "Valve fault"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "icon": "/assets/valve_alarm_state.svg"
+    },
+    "valve_open": {
+      "type": "boolean",
+      "title": {
+        "en": "Main water valve"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "icon": "/assets/valve_open.svg"
+    }
+  }
+}

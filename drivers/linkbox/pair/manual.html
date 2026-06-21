@@ -1,0 +1,36 @@
+<script type="application/javascript">
+  function probe() {
+    const ip = document.getElementById('ip').value.trim();
+    const port = document.getElementById('port').value.trim();
+    const button = document.getElementById('probe');
+    button.disabled = true;
+    Homey.emit('manual_probe', { ip: ip, port: port }, function (err, devices) {
+      button.disabled = false;
+      if (err) return Homey.alert(err.message || String(err));
+      if (!devices || devices.length === 0) return Homey.alert('No Abra Linkbox+ responded.');
+      Homey.createDevice(devices[0], function (createError) {
+        if (createError) return Homey.alert(createError.message || String(createError));
+        Homey.done();
+      });
+    });
+  }
+  Homey.setTitle('Enter Linkbox+ address');
+</script>
+
+<header class="homey-header">
+  <h1 class="homey-title">Enter Linkbox+ address</h1>
+  <p class="homey-subtitle">Find the IP in your router or the Waterguard app.</p>
+</header>
+
+<fieldset class="homey-form-fieldset">
+  <div class="homey-form-group">
+    <label class="homey-form-label" for="ip">IP address</label>
+    <input class="homey-form-input" id="ip" type="text" placeholder="192.168.1.143" />
+  </div>
+  <div class="homey-form-group">
+    <label class="homey-form-label" for="port">BACnet/IP port</label>
+    <input class="homey-form-input" id="port" type="number" value="47808" />
+  </div>
+</fieldset>
+
+<button class="homey-button-primary-full" id="probe" onclick="probe()">Find Linkbox+</button>

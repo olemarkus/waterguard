@@ -1,0 +1,20 @@
+{
+  "_comment": "Full composition for `node scripts/fake-linkbox.ts --config scripts/fake-linkbox.example.json`. Every field is optional; omit one to take the default. CLI flags override values set here.",
+
+  "serial": "800200-000042",
+  "model": "Abra Linkbox+",
+  "deviceId": 1042,
+
+  "valves": 2,
+  "valveType": "Ball",
+  "tape": true,
+  "tamper": true,
+
+  "sensors": [
+    { "id": "5149013726658557", "temperature": 21.5, "humidity": 48, "batteryVoltage": 3.1 },
+    { "id": "5149013726659907", "leak2": true, "temperature": 6.0, "humidity": 70, "batteryVoltage": 2.4 },
+    { "id": "5149013726660001", "batteryVoltage": 3.2 }
+  ],
+
+  "apiPort": 18099
+}

@@ -1,0 +1,18 @@
+{
+  "title": {
+    "en": "Open the water valve"
+  },
+  "titleFormatted": {
+    "en": "Open the water valve"
+  },
+  "hint": {
+    "en": "Opens the main shut-off valve and verifies it reached the open state."
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=linkbox"
+    }
+  ]
+}

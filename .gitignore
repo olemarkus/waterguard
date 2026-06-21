@@ -1,0 +1,27 @@
+# Dependencies
+/node_modules/
+
+# Build / tooling output
+/.homeybuild/
+/coverage/
+*.tsbuildinfo
+/.eslintcache
+
+# Local agent/editor state
+.codex
+.claude/
+.vscode/
+.idea/
+.DS_Store
+
+# Environment / local config
+/env.json
+.env
+.env.*
+*.log
+
+# Reference material and captures (not part of the app)
+/localdocs/
+/dump*
+/*.pcap
+/*.pcapng
