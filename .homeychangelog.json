@@ -4,5 +4,8 @@
   },
   "0.1.0": {
     "en": "Replaced placeholder images with proper images."
+  },
+  "1.0.0": {
+    "en": "Update app manifest with more metadata. Also performed a minor code cleanup."
   }
 }
