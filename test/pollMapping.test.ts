@@ -87,6 +87,19 @@ describe('deriveGatewayCapabilities', () => {
     objects.find((object) => object.name === 'valveMonitor:8.valveStatus1')!.present = 1;
     expect(deriveGatewayCapabilities(mapFrom(objects), valuesFrom(objects)).onoff).toBeUndefined();
   });
+
+  it('marks the water alarm known when at least one leak source reported', () => {
+    expect(deriveGatewayCapabilities(mapFrom(), valuesFrom()).alarmWaterKnown).toBe(true);
+  });
+
+  it('marks the water alarm unknown when no leak source reported this poll', () => {
+    const objects = defaultObjects();
+    const map = mapFrom(objects);
+    const values = valuesFrom(objects);
+    if (map.hub.alarm) values.delete(objectKey(map.hub.alarm.type, map.hub.alarm.instance));
+    if (map.hub.tapeLeak) values.delete(objectKey(map.hub.tapeLeak.type, map.hub.tapeLeak.instance));
+    expect(deriveGatewayCapabilities(map, values).alarmWaterKnown).toBe(false);
+  });
 });
 
 describe('deriveSensorCapabilities', () => {
@@ -108,6 +121,16 @@ describe('deriveSensorCapabilities', () => {
 
   it('returns undefined for an unknown sensor id', () => {
     expect(deriveSensorCapabilities(mapFrom(), valuesFrom(), 'nope')).toBeUndefined();
+  });
+
+  it('marks the leak alarm unknown when the sensor reported no leak points this poll', () => {
+    const objects = defaultObjects();
+    const map = mapFrom(objects);
+    const values = valuesFrom(objects);
+    const sensor = map.sensors.get(SENSOR_ONE)!;
+    if (sensor.leak1) values.delete(objectKey(sensor.leak1.type, sensor.leak1.instance));
+    if (sensor.leak2) values.delete(objectKey(sensor.leak2.type, sensor.leak2.instance));
+    expect(deriveSensorCapabilities(map, values, SENSOR_ONE)?.alarmWaterKnown).toBe(false);
   });
 });
 

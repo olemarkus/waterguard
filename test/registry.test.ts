@@ -3,6 +3,7 @@ import {
 } from 'vitest';
 import { WaterguardRegistry, GatewayEndpoint } from '../lib/WaterguardRegistry';
 import { enumerateObjects } from '../lib/waterguardDiscovery';
+import { objectKey, ObjectTypeId } from '../lib/linkboxObjects';
 import { FakeLinkbox, SENSOR_ONE } from './helpers/fakeLinkbox';
 
 const ENDPOINT: GatewayEndpoint = {
@@ -62,6 +63,24 @@ describe('gateway polling', () => {
     expect(gateway.caps.get('alarm_tamper')).toBe(false);
     expect(gateway.caps.get('valve_alarm_state')).toBe('noAlarm');
     expect(gateway.present.has('alarm_water.tape')).toBe(true);
+  });
+
+  it('keeps the last water alarm when no leak source is readable in a poll', async () => {
+    const fake = new FakeLinkbox();
+    const registry = track(makeRegistry(fake));
+    const gateway = fakeDevice();
+    registry.registerGateway(gateway, ENDPOINT);
+
+    fake.setPresent('waterMonitor:8.alarm', 1); // wet
+    await registry.refresh(ENDPOINT.unitId);
+    expect(gateway.caps.get('alarm_water')).toBe(true);
+
+    // Drop both leak sources: readPropertyMultiple then fails, the per-object
+    // fallback skips the unreadable objects but still succeeds with the rest.
+    fake.objects.delete(objectKey(ObjectTypeId.ANALOG_INPUT, 19)); // waterMonitor:8.alarm
+    fake.objects.delete(objectKey(ObjectTypeId.ANALOG_INPUT, 2)); // waterMonitor:8.leak1 (tape)
+    await registry.refresh(ENDPOINT.unitId);
+    expect(gateway.caps.get('alarm_water')).toBe(true); // unchanged, not cleared
   });
 
   it('fires the valve fault trigger only when the fault state changes', async () => {

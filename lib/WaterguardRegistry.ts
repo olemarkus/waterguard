@@ -377,7 +377,7 @@ export class WaterguardRegistry {
   private distributeGateway(unit: Unit, device: RegistryDevice, map: LinkboxObjectMap, values: PresentValues): void {
     const caps = deriveGatewayCapabilities(map, values);
     device.ensureCapabilityPresent('alarm_water.tape', caps.tapeLeakPresent);
-    device.applyCapability('alarm_water', caps.alarm_water);
+    if (caps.alarmWaterKnown) device.applyCapability('alarm_water', caps.alarm_water);
     if (caps.onoff !== undefined) {
       device.applyCapability('onoff', caps.onoff);
       device.applyCapability('valve_open', caps.onoff);
@@ -502,7 +502,7 @@ function applySensorCapabilities(
 ): void {
   const caps = deriveSensorCapabilities(map, values, sensorId);
   if (!caps) return;
-  device.applyCapability('alarm_water', caps.alarm_water);
+  if (caps.alarmWaterKnown) device.applyCapability('alarm_water', caps.alarm_water);
   if (caps.measure_temperature !== undefined) {
     device.applyCapability('measure_temperature', caps.measure_temperature);
   }

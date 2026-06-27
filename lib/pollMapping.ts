@@ -26,6 +26,10 @@ export type PresentValues = Map<string, number>;
 
 export type GatewayCapabilities = {
   alarm_water: boolean;
+  // The leak value stays a hard boolean; this flag says whether any leak source
+  // reported this poll. When false, leave alarm_water unchanged (do not clear it
+  // from a transient missing read).
+  alarmWaterKnown: boolean;
   onoff?: boolean;
   alarm_tamper: boolean;
   alarm_generic: boolean;
@@ -37,6 +41,7 @@ export type GatewayCapabilities = {
 
 export type SensorCapabilities = {
   alarm_water: boolean;
+  alarmWaterKnown: boolean;
   measure_temperature?: number;
   measure_humidity?: number;
   measure_battery?: number;
@@ -131,6 +136,7 @@ export function deriveGatewayCapabilities(map: LinkboxObjectMap, values: Present
   const tapeLeakPresent = map.hub.tapeLeak !== undefined;
   return {
     alarm_water: isLeakWet(hubAlarm) || isLeakWet(tapeLeak),
+    alarmWaterKnown: hubAlarm !== undefined || tapeLeak !== undefined,
     onoff: deriveOnoff(map, values),
     alarm_tamper: isTamperActive(valueOf(values, map.tamper)),
     alarm_generic: fault.active,
@@ -153,6 +159,7 @@ export function deriveSensorCapabilities(
   const voltage = valueOf(values, sensor.batteryVoltage);
   return {
     alarm_water: isLeakWet(leak1) || isLeakWet(leak2),
+    alarmWaterKnown: leak1 !== undefined || leak2 !== undefined,
     measure_temperature: valueOf(values, sensor.temperature),
     measure_humidity: valueOf(values, sensor.humidity),
     measure_battery: voltage === undefined ? undefined : voltageToBatteryPercent(voltage),

@@ -19,7 +19,7 @@
     "arch:check": "dependency-cruiser --config .dependency-cruiser.cjs app.ts lib drivers",
     "test": "npm run typecheck && vitest run --config vitest.config.mts",
     "test:watch": "vitest --config vitest.config.mts",
-    "validate": "npm run lint && npm run arch:check && npm test && homey app validate",
+    "validate": "npm run lint && npm run arch:check && npm test && homey app validate --level publish",
     "fake-linkbox": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/fake-linkbox.ts",
     "start": "homey app run --remote",
     "prepare": "husky"
