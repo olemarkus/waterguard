@@ -37,6 +37,12 @@
     "name": "Ole Markus With",
     "email": "olemarkus@gmail.com"
   },
+  "source": "https://github.com/olemarkus/waterguard",
+  "homepage": "https://github.com/olemarkus/waterguard",
+  "bugs": {
+    "url": "https://github.com/olemarkus/waterguard/issues"
+  },
+  "homeyCommunityTopicId": 156510,
   "flow": {
     "triggers": [
       {
