@@ -34,6 +34,7 @@ import {
   PresentValues,
   resolveValveCommands,
   resolveValveStatusValues,
+  WIRED_LEAK_CAPABILITY,
 } from './pollMapping';
 import { RuntimeLogger } from './logging';
 
@@ -110,6 +111,8 @@ class Unit {
 
   private lastValveFault?: string;
 
+  private lastWiredLeak?: boolean;
+
   writePriority = DEFAULT_WRITE_PRIORITY;
 
   constructor(
@@ -172,6 +175,16 @@ class Unit {
       && (this.consecutiveFailures - MAX_CONSECUTIVE_FAILURES) % REDISCOVERY_RETRY_EVERY === 0;
   }
 
+  /** True when the wired sensor's leak state flipped. The first reading only
+   *  primes the state, so restarting the app never fires a leak Flow by itself. */
+  noteWiredLeak(wet: boolean): boolean {
+    const previous = this.lastWiredLeak;
+    this.lastWiredLeak = wet;
+    return previous !== undefined && previous !== wet;
+  }
+
+  /** Unlike {@link noteWiredLeak}, the first reading fires: surfacing an
+   *  existing fault after an app restart is desired, re-announcing a leak is not. */
   noteValveFault(state: string): boolean {
     if (state === this.lastValveFault) return false;
     this.lastValveFault = state;
@@ -376,7 +389,7 @@ export class WaterguardRegistry {
 
   private distributeGateway(unit: Unit, device: RegistryDevice, map: LinkboxObjectMap, values: PresentValues): void {
     const caps = deriveGatewayCapabilities(map, values);
-    device.ensureCapabilityPresent('alarm_water.tape', caps.tapeLeakPresent);
+    device.ensureCapabilityPresent(WIRED_LEAK_CAPABILITY, caps.tapeLeakPresent);
     if (caps.alarmWaterKnown) device.applyCapability('alarm_water', caps.alarm_water);
     if (caps.onoff !== undefined) {
       device.applyCapability('onoff', caps.onoff);
@@ -386,7 +399,13 @@ export class WaterguardRegistry {
     device.applyCapability('alarm_generic', caps.alarm_generic);
     device.applyCapability('valve_alarm_state', caps.valve_alarm_state);
     device.applyCapability('cable_disconnected', caps.cable_disconnected);
-    if (caps.tapeLeak !== undefined) device.applyCapability('alarm_water.tape', caps.tapeLeak);
+    if (caps.tapeLeak !== undefined) {
+      device.applyCapability(WIRED_LEAK_CAPABILITY, caps.tapeLeak);
+      // Sub-capabilities get no system Flow cards, so drive our own pair here.
+      if (unit.noteWiredLeak(caps.tapeLeak)) {
+        device.triggerFlow(caps.tapeLeak ? 'wired_leak_detected' : 'wired_leak_cleared', {});
+      }
+    }
     if (unit.noteValveFault(caps.valve_alarm_state)) {
       device.triggerFlow('valve_fault_changed', { state: caps.valve_alarm_state });
     }

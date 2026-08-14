@@ -31,9 +31,15 @@
     },
     "alarm_water": {
       "title": {
-        "en": "Water leak"
+        "en": "Water leak (any sensor)"
       },
-      "insights": true
+      "insights": true,
+      "insightsTitleTrue": {
+        "en": "Water leak detected"
+      },
+      "insightsTitleFalse": {
+        "en": "Water leak cleared"
+      }
     },
     "onoff": {
       "title": {

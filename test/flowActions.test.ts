@@ -1,5 +1,10 @@
 import { describe, it, expect, vi } from 'vitest';
-import { resolveUnitId, runResetLeakAction, runValveAction } from '../lib/flowActions';
+import {
+  resolveUnitId,
+  runResetLeakAction,
+  runValveAction,
+  runWiredLeakCondition,
+} from '../lib/flowActions';
 
 function deviceWithId(id: unknown) {
   return { getData: () => ({ id }) };
@@ -28,5 +33,20 @@ describe('valve flow actions', () => {
     expect(controller.setValveOpen).toHaveBeenNthCalledWith(1, 'abra-1001', true);
     expect(controller.setValveOpen).toHaveBeenNthCalledWith(2, 'abra-1001', false);
     expect(controller.resetLeak).toHaveBeenCalledWith('abra-1001');
+  });
+});
+
+describe('wired leak condition', () => {
+  it('follows the wired-sensor alarm capability', () => {
+    expect(runWiredLeakCondition({ hasCapability: () => true, getCapabilityValue: () => true })).toBe(true);
+    expect(runWiredLeakCondition({ hasCapability: () => true, getCapabilityValue: () => false })).toBe(false);
+  });
+
+  it('reads as dry when the Linkbox+ has no wired sensor', () => {
+    const missing = {
+      hasCapability: () => false,
+      getCapabilityValue: (): unknown => { throw new Error('Invalid Capability'); },
+    };
+    expect(runWiredLeakCondition(missing)).toBe(false);
   });
 });

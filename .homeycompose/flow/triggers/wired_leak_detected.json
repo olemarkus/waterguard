@@ -1,0 +1,15 @@
+{
+  "title": {
+    "en": "The wired sensor detected water"
+  },
+  "hint": {
+    "en": "Triggers when the leak sensor wired to the Linkbox+ itself gets wet. The device's water leak alarm covers every sensor — wired and wireless."
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=linkbox"
+    }
+  ]
+}

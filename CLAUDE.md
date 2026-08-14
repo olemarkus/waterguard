@@ -101,6 +101,11 @@ the registry synchronous and testable with plain fakes.
 
 ## Conventions
 
+- **Don't design for transient failures.** Guards, "known/unknown" flags, retries and
+  suppression logic added to tolerate transient read errors add state and branches that are more
+  likely to cause bad behavior down the line than the transient error itself. Keep the simple
+  mapping; a wrong value for one 20-second poll cycle self-corrects on the next poll.
+
 - **Homey loads modules as CommonJS** — driver/device/app classes use TypeScript's
   `export = class …`, not `export default`.
 - **`app.json` is generated** from `.homeycompose/` (`_comment` says so). Edit
