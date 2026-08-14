@@ -72,6 +72,59 @@
           }
         ],
         "id": "valve_fault_changed"
+      },
+      {
+        "title": {
+          "en": "The wired sensor leak alarm turned off"
+        },
+        "hint": {
+          "en": "Triggers when the leak sensor wired to the Linkbox+ itself is dry again."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=linkbox"
+          }
+        ],
+        "id": "wired_leak_cleared"
+      },
+      {
+        "title": {
+          "en": "The wired sensor detected water"
+        },
+        "hint": {
+          "en": "Triggers when the leak sensor wired to the Linkbox+ itself gets wet. The device's water leak alarm covers every sensor — wired and wireless."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=linkbox"
+          }
+        ],
+        "id": "wired_leak_detected"
+      }
+    ],
+    "conditions": [
+      {
+        "title": {
+          "en": "The wired sensor !{{is|is not}} wet"
+        },
+        "titleFormatted": {
+          "en": "The wired sensor !{{is|is not}} wet"
+        },
+        "hint": {
+          "en": "Checks the leak sensor wired to the Linkbox+ itself, not the wireless sensors."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=linkbox"
+          }
+        ],
+        "id": "wired_leak_active"
       }
     ],
     "actions": [
@@ -168,9 +221,15 @@
         },
         "alarm_water": {
           "title": {
-            "en": "Water leak"
+            "en": "Water leak (any sensor)"
           },
-          "insights": true
+          "insights": true,
+          "insightsTitleTrue": {
+            "en": "Water leak detected"
+          },
+          "insightsTitleFalse": {
+            "en": "Water leak cleared"
+          }
         },
         "onoff": {
           "title": {

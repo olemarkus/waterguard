@@ -65,6 +65,43 @@ describe('gateway polling', () => {
     expect(gateway.present.has('alarm_water.tape')).toBe(true);
   });
 
+  it('fires the wired-sensor leak triggers on state changes only', async () => {
+    const fake = new FakeLinkbox();
+    const registry = track(makeRegistry(fake));
+    const gateway = fakeDevice();
+    registry.registerGateway(gateway, ENDPOINT);
+    await registry.refresh(ENDPOINT.unitId);
+    const wiredTriggers = () => gateway.triggers.filter((entry) => entry.trigger.startsWith('wired_leak'));
+    expect(wiredTriggers()).toHaveLength(0); // first reading only primes the state
+
+    fake.setPresent('waterMonitor:8.leak1', 1); // wired sensor wet
+    await registry.refresh(ENDPOINT.unitId);
+    await registry.refresh(ENDPOINT.unitId); // same state again must not re-fire
+    expect(wiredTriggers()).toEqual([{ trigger: 'wired_leak_detected', tokens: {} }]);
+    expect(gateway.caps.get('alarm_water.tape')).toBe(true);
+    expect(gateway.caps.get('alarm_water')).toBe(true); // the aggregate covers it too
+
+    fake.setPresent('waterMonitor:8.leak1', 0);
+    await registry.refresh(ENDPOINT.unitId);
+    expect(wiredTriggers().at(-1)).toEqual({ trigger: 'wired_leak_cleared', tokens: {} });
+    expect(gateway.caps.get('alarm_water')).toBe(false);
+  });
+
+  it('leaves the wired-sensor triggers alone when only a wireless sensor is wet', async () => {
+    const fake = new FakeLinkbox();
+    const registry = track(makeRegistry(fake));
+    const gateway = fakeDevice();
+    registry.registerGateway(gateway, ENDPOINT);
+    await registry.refresh(ENDPOINT.unitId);
+
+    fake.setPresent('waterMonitor:8.alarm', 1); // hub aggregate, raised by any sensor
+    await registry.refresh(ENDPOINT.unitId);
+
+    expect(gateway.caps.get('alarm_water')).toBe(true);
+    expect(gateway.caps.get('alarm_water.tape')).toBe(false);
+    expect(gateway.triggers.some((entry) => entry.trigger.startsWith('wired_leak'))).toBe(false);
+  });
+
   it('keeps the last water alarm when no leak source is readable in a poll', async () => {
     const fake = new FakeLinkbox();
     const registry = track(makeRegistry(fake));

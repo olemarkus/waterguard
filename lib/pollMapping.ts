@@ -24,6 +24,9 @@ import {
 
 export type PresentValues = Map<string, number>;
 
+/** Leak state of the sensor wired directly to the Linkbox+ (not the wireless ones). */
+export const WIRED_LEAK_CAPABILITY = 'alarm_water.tape';
+
 export type GatewayCapabilities = {
   alarm_water: boolean;
   // The leak value stays a hard boolean; this flag says whether any leak source

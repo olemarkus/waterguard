@@ -2,7 +2,15 @@
  * Pure flow-action handlers, decoupled from the Homey SDK so they can be unit
  * tested. The app wires these into the action cards.
  */
+import { WIRED_LEAK_CAPABILITY } from './pollMapping';
+
 export type FlowDeviceArg = { getData(): unknown } | undefined;
+
+/** A Flow device argument read for its capability values (condition cards). */
+export type FlowCapabilityDevice = {
+  hasCapability(capability: string): boolean;
+  getCapabilityValue(capability: string): unknown;
+};
 
 export type ValveController = {
   setValveOpen(unitId: string, open: boolean): Promise<void>;
@@ -28,4 +36,11 @@ export async function runValveAction(
 export async function runResetLeakAction(controller: ValveController, device: FlowDeviceArg): Promise<boolean> {
   await controller.resetLeak(resolveUnitId(device));
   return true;
+}
+
+/** The wired-sensor leak state. A Linkbox+ without a wired sensor never gets
+ *  the capability, which reads as dry rather than failing the Flow. */
+export function runWiredLeakCondition(device: FlowCapabilityDevice): boolean {
+  if (!device.hasCapability(WIRED_LEAK_CAPABILITY)) return false;
+  return device.getCapabilityValue(WIRED_LEAK_CAPABILITY) === true;
 }

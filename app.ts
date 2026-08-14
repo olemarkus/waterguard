@@ -1,10 +1,18 @@
 import Homey from 'homey';
 import { Registry } from './lib/WaterguardRegistry';
-import { runResetLeakAction, runValveAction, FlowDeviceArg } from './lib/flowActions';
+import {
+  runResetLeakAction,
+  runValveAction,
+  runWiredLeakCondition,
+  FlowCapabilityDevice,
+  FlowDeviceArg,
+} from './lib/flowActions';
 import { closeAllBacnetClients, setBacnetLogger } from './lib/bacnetClient';
 import { createRuntimeLogger } from './lib/logging';
 
 type ValveActionArgs = { device?: FlowDeviceArg };
+// Condition cards are device-scoped, so Homey always supplies the device arg.
+type ConditionArgs = { device: FlowCapabilityDevice };
 
 // Homey loads the app as CommonJS, so use TypeScript's `export =`.
 export = class WaterguardApp extends Homey.App {
@@ -19,6 +27,9 @@ export = class WaterguardApp extends Homey.App {
       .registerRunListener((args: ValveActionArgs) => runValveAction(Registry, args.device, false));
     this.homey.flow.getActionCard('reset_leak_alarm')
       .registerRunListener((args: ValveActionArgs) => runResetLeakAction(Registry, args.device));
+
+    this.homey.flow.getConditionCard('wired_leak_active')
+      .registerRunListener((args: ConditionArgs) => runWiredLeakCondition(args.device));
 
     logger.info('app.init', 'Waterguard app initialized');
   }
