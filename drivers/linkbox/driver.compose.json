@@ -33,13 +33,7 @@
       "title": {
         "en": "Water leak (any sensor)"
       },
-      "insights": true,
-      "insightsTitleTrue": {
-        "en": "Water leak detected"
-      },
-      "insightsTitleFalse": {
-        "en": "Water leak cleared"
-      }
+      "insights": true
     },
     "onoff": {
       "title": {

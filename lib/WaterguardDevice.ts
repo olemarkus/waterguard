@@ -15,8 +15,8 @@ const RUNTIME_CAPABILITY_OPTIONS: Record<string, object> = {
   [WIRED_LEAK_CAPABILITY]: {
     title: { en: 'Water leak (wired sensor)' },
     insights: true,
-    insightsTitleTrue: { en: 'Wired sensor got wet' },
-    insightsTitleFalse: { en: 'Wired sensor leak cleared' },
+    insightsTitleTrue: { en: 'Wired sensor water alarm turned on', no: 'Vannalarm (kablet sensor) aktivert' },
+    insightsTitleFalse: { en: 'Wired sensor water alarm turned off', no: 'Vannalarm (kablet sensor) deaktivert' },
   },
 };
 
