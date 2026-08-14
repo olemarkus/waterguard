@@ -7,5 +7,8 @@
   },
   "1.0.0": {
     "en": "Update app manifest with more metadata. Also performed a minor code cleanup."
+  },
+  "1.1.0": {
+    "en": "The two water alarms on the Linkbox+ are now clearly named: one covers every sensor, wired and wireless, while the other is raised only by the leak sensor wired to the Linkbox+ itself. The wired sensor's alarm can now also be used in Flows, with new cards for when it turns on or off and a condition to check its current state, available in English and Norwegian."
   }
 }
