@@ -1,12 +1,15 @@
 {
   "title": {
-    "en": "The wired sensor !{{is|is not}} wet"
+    "en": "The wired sensor water alarm is !{{on|off}}",
+    "no": "Vannalarmen for kablet sensor er !{{på|av}}"
   },
   "titleFormatted": {
-    "en": "The wired sensor !{{is|is not}} wet"
+    "en": "The wired sensor water alarm is !{{on|off}}",
+    "no": "Vannalarmen for kablet sensor er !{{på|av}}"
   },
   "hint": {
-    "en": "Checks the leak sensor wired to the Linkbox+ itself, not the wireless sensors."
+    "en": "Checks the leak sensor wired to the Linkbox+ itself, not the wireless sensors.",
+    "no": "Sjekker lekkasjesensoren som er kablet til selve Linkbox+, ikke de trådløse sensorene."
   },
   "args": [
     {

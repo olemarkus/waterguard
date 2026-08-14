@@ -75,10 +75,12 @@
       },
       {
         "title": {
-          "en": "The wired sensor leak alarm turned off"
+          "en": "The wired sensor water alarm turned off",
+          "no": "Vannalarmen for kablet sensor ble deaktivert"
         },
         "hint": {
-          "en": "Triggers when the leak sensor wired to the Linkbox+ itself is dry again."
+          "en": "Triggers when the leak sensor wired to the Linkbox+ itself is dry again.",
+          "no": "Utløses når lekkasjesensoren som er kablet til selve Linkbox+ er tørr igjen."
         },
         "args": [
           {
@@ -91,10 +93,13 @@
       },
       {
         "title": {
-          "en": "The wired sensor detected water"
+          "en": "The wired sensor water alarm turned on",
+          "no": "Vannalarmen for kablet sensor ble aktivert"
         },
+        "highlight": true,
         "hint": {
-          "en": "Triggers when the leak sensor wired to the Linkbox+ itself gets wet. The device's water leak alarm covers every sensor — wired and wireless."
+          "en": "Triggers when the leak sensor wired to the Linkbox+ itself gets wet. The device's water alarm covers every sensor — wired and wireless.",
+          "no": "Utløses når lekkasjesensoren som er kablet til selve Linkbox+ blir våt. Enhetens vannalarm dekker alle sensorer — kablede og trådløse."
         },
         "args": [
           {
@@ -109,13 +114,16 @@
     "conditions": [
       {
         "title": {
-          "en": "The wired sensor !{{is|is not}} wet"
+          "en": "The wired sensor water alarm is !{{on|off}}",
+          "no": "Vannalarmen for kablet sensor er !{{på|av}}"
         },
         "titleFormatted": {
-          "en": "The wired sensor !{{is|is not}} wet"
+          "en": "The wired sensor water alarm is !{{on|off}}",
+          "no": "Vannalarmen for kablet sensor er !{{på|av}}"
         },
         "hint": {
-          "en": "Checks the leak sensor wired to the Linkbox+ itself, not the wireless sensors."
+          "en": "Checks the leak sensor wired to the Linkbox+ itself, not the wireless sensors.",
+          "no": "Sjekker lekkasjesensoren som er kablet til selve Linkbox+, ikke de trådløse sensorene."
         },
         "args": [
           {
@@ -223,13 +231,7 @@
           "title": {
             "en": "Water leak (any sensor)"
           },
-          "insights": true,
-          "insightsTitleTrue": {
-            "en": "Water leak detected"
-          },
-          "insightsTitleFalse": {
-            "en": "Water leak cleared"
-          }
+          "insights": true
         },
         "onoff": {
           "title": {

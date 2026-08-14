@@ -1,9 +1,12 @@
 {
   "title": {
-    "en": "The wired sensor detected water"
+    "en": "The wired sensor water alarm turned on",
+    "no": "Vannalarmen for kablet sensor ble aktivert"
   },
+  "highlight": true,
   "hint": {
-    "en": "Triggers when the leak sensor wired to the Linkbox+ itself gets wet. The device's water leak alarm covers every sensor — wired and wireless."
+    "en": "Triggers when the leak sensor wired to the Linkbox+ itself gets wet. The device's water alarm covers every sensor — wired and wireless.",
+    "no": "Utløses når lekkasjesensoren som er kablet til selve Linkbox+ blir våt. Enhetens vannalarm dekker alle sensorer — kablede og trådløse."
   },
   "args": [
     {
