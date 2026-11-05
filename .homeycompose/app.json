@@ -1,6 +1,6 @@
 {
   "id": "org.barelysufficient.waterguard",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "compatibility": ">=12.4.0",
   "sdk": 3,
   "runtime": "nodejs",
@@ -41,5 +41,15 @@
   "bugs": {
     "url": "https://github.com/olemarkus/waterguard/issues"
   },
-  "homeyCommunityTopicId": 156510
+  "homeyCommunityTopicId": 156510,
+  "contributing": {
+    "donate": {
+      "githubSponsors": {
+        "username": "olemarkus"
+      },
+      "paypal": {
+        "username": "olemwith"
+      }
+    }
+  }
 }
