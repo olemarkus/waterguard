@@ -12,6 +12,6 @@
     "en": "The two water alarms on the Linkbox+ are now clearly named: one covers every sensor, wired and wireless, while the other is raised only by the leak sensor wired to the Linkbox+ itself. The wired sensor's alarm can now also be used in Flows, with new cards for when it turns on or off and a condition to check its current state, available in English and Norwegian."
   },
   "1.1.1": {
-    "en": "Clarified that this app requires Linkbox+ Pro (4G), an Ethernet connection, and BACnet enabled by Waterguard support. Added PayPal and GitHub Sponsors donation options and updated dependencies."
+    "en": "Now requires Homey software 12.9.0 or later to avoid a startup crash on older runtimes. Clarified that this app requires Linkbox+ Pro (4G), an Ethernet connection, and BACnet enabled by Waterguard support. Added PayPal and GitHub Sponsors donation options and updated dependencies."
   }
 }
