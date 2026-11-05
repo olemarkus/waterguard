@@ -66,7 +66,7 @@ const nodeTypeScriptRules = {
   // ported from flexit's BACnet polling style. pels enables this because pels is
   // functional-leaning; forcing it here would only buy obfuscating workarounds.
   'functional/immutable-data': 'off',
-  'unicorn/no-array-for-each': 'warn',
+  'unicorn/no-for-each': 'warn',
   'unicorn/prefer-node-protocol': 'warn',
   'n/no-unsupported-features/node-builtins': ['error', {
     version: '>=22.0.0',
